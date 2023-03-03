@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+* {
+    touch-action: none;
+}
+
+#scoreDiv {
+    position: absolute;
+    color: white;
+    padding: 8px;
+    font-size: 18px;
+    user-select: none;
+}
+
+#volumeUpEl {
+    color: white;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#volumeOffEl {
+    color: white;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+#modalEl {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    padding: 16px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+#modalScoreEl {
+    margin-top: 12px;
+    margin-bottom: 0px;
+    background-color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#buttonEl {
+    margin-top: 12px;
+    background-color: darkblue;
+    color: white;
+    font-size: 22px;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#startModalEl {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    padding: 16px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+#startButtonEl {
+    margin-top: 12px;
+    background-color: darkblue;
+    color: white;
+    font-size: 22px;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button {
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.8;
+    outline: thick solid lightblue;
+}

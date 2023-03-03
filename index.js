@@ -10,8 +10,8 @@ const startModalEl = document.querySelector("#startModalEl");
 const volumeUpEl = document.querySelector("#volumeUpEl");
 const volumeOffEl = document.querySelector("#volumeOffEl");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = innerWidth - 7;
+canvas.height = innerHeight - 7;
 
 let player;
 let projectiles = [];
@@ -28,6 +28,7 @@ let game = {
 };
 
 function init() {
+    document.body.style.backgroundColor = "black";
     const x = canvas.width / 2;
     const y = canvas.height / 2;
     player = new Player(x, y, 10, "white");
@@ -44,7 +45,7 @@ function init() {
         active: true,
     };
 
-    const spacing = 30;
+    const spacing = 35;
 
     for (let x = 0; x < canvas.width + spacing; x += spacing) {
         for (let y = 0; y < canvas.height + spacing; y += spacing) {
@@ -141,10 +142,10 @@ function animate() {
             player.y - backgroundParticle.position.y
         );
 
-        if (dist < 100) {
+        if (dist < 70) {
             backgroundParticle.alpha = 0;
 
-            if (dist > 70) {
+            if (dist > 40) {
                 backgroundParticle.alpha = 0.5;
             }
         } else if (dist > 100 && backgroundParticle.alpha < 0.1) {
@@ -321,7 +322,7 @@ function animate() {
                     backgroundParticles.forEach((backgroundParticle) => {
                         gsap.set(backgroundParticle, {
                             color: "white",
-                            alpha: 1,
+                            alpha: 0.4,
                         });
                         gsap.to(backgroundParticle, {
                             color: enemy.color,
