@@ -1,13 +1,13 @@
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
+const canvas = document.querySelector("canvas");
+const c = canvas.getContext("2d");
 
-const scoreEl = document.querySelector('#scoreEl');
-const modalEl = document.querySelector('#modalEl');
-const modalScoreEl = document.querySelector('#modalScoreEl');
-const buttonEl = document.querySelector('#buttonEl');
-const startButtonEl = document.querySelector('#startButtonEl');
-const startModalEl = document.querySelector('#startModalEl');
-const divScoreEl = document.querySelector('#divScoreEl');
+const scoreEl = document.querySelector("#scoreEl");
+const modalEl = document.querySelector("#modalEl");
+const modalScoreEl = document.querySelector("#modalScoreEl");
+const buttonEl = document.querySelector("#buttonEl");
+const startButtonEl = document.querySelector("#startButtonEl");
+const startModalEl = document.querySelector("#startModalEl");
+const divScoreEl = document.querySelector("#divScoreEl");
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -20,8 +20,8 @@ class Player {
         this.color = color;
         this.velocity = {
             x: 0,
-            y: 0
-        }
+            y: 0,
+        };
     }
 
     draw() {
@@ -40,13 +40,19 @@ class Player {
         this.velocity.y *= friction;
 
         // kolizja dla prawej i lewej
-        if (this.x + this.radius + this.velocity.x <= canvas.width && this.x - this.radius + this.velocity.x >= 0) {
+        if (
+            this.x + this.radius + this.velocity.x <= canvas.width &&
+            this.x - this.radius + this.velocity.x >= 0
+        ) {
             this.x += this.velocity.x;
         } else {
             this.velocity.x = 0;
         }
         // kolizja dla dołu i góry
-        if (this.y + this.radius + this.velocity.y <= canvas.height && this.y - this.radius + this.velocity.y >= 0) {
+        if (
+            this.y + this.radius + this.velocity.y <= canvas.height &&
+            this.y - this.radius + this.velocity.y >= 0
+        ) {
             this.y += this.velocity.y;
         } else {
             this.velocity.y = 0;
@@ -66,7 +72,7 @@ class Projectile {
     draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        c.fillStyle = 'rgba(255,0,0,1)';
+        c.fillStyle = "rgba(255,255,255,1)";
         c.fill();
     }
 
@@ -134,7 +140,7 @@ class Particle {
 const x = canvas.width / 2;
 const y = canvas.height / 2;
 
-let player = new Player(x, y, 12, 'white');
+let player = new Player(x, y, 12, "white");
 
 let projectiles = [];
 let enemies = [];
@@ -144,7 +150,7 @@ let intervalId;
 let score = 0;
 
 function init() {
-    player = new Player(x, y, 12, 'white');
+    player = new Player(x, y, 12, "white");
     projectiles = [];
     enemies = [];
     particles = [];
@@ -166,22 +172,22 @@ function spawnEnemies() {
             y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
         }
 
-        const color = 'hsl(' + Math.random() * 255 + ', 50%, 50%)';
+        const color = "hsl(" + Math.random() * 255 + ", 50%, 50%)";
 
         const angle = Math.atan2(player.y - y, player.x - x);
         const velocity = {
             x: Math.cos(angle) * 1.6,
-            y: Math.sin(angle) * 1.6
-        }
+            y: Math.sin(angle) * 1.6,
+        };
         enemies.push(new Enemy(x, y, radius, color, velocity));
-    }, 500)
+    }, 500);
 }
 
 function animate() {
     player.update();
     animationId = requestAnimationFrame(animate);
     // kolor canvasu
-    c.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    c.fillStyle = "rgba(0, 0, 0, 0.2)";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     for (let index = particles.length - 1; index >= 0; index--) {
@@ -199,7 +205,12 @@ function animate() {
 
         projectile.update();
         // usuwa obiekty za krawędzią ekranu
-        if (projectile.x - projectile.radius < 0 || projectile.x - projectile.radius > canvas.width || projectiles.y + projectile.radius > 0 || projectile.y - projectile.radius > canvas.height) {
+        if (
+            projectile.x - projectile.radius < 0 ||
+            projectile.x - projectile.radius > canvas.width ||
+            projectiles.y + projectile.radius > 0 ||
+            projectile.y - projectile.radius > canvas.height
+        ) {
             projectiles.splice(index, 1);
         }
     }
@@ -215,42 +226,61 @@ function animate() {
             cancelAnimationFrame(animationId);
             clearInterval(intervalId);
             modalScoreEl.innerHTML = score;
-            modalEl.style.display = 'block';
-            gsap.fromTo('#modalEl', {
-                scale: 0.8,
-                opacity: 0
-            }, {
-                scale: 1,
-                opacity: 1,
-                ease: 'expo'
-            })
-            gsap.to('#divScoreEl', {
+            modalEl.style.display = "block";
+            gsap.fromTo(
+                "#modalEl",
+                {
+                    scale: 0.8,
+                    opacity: 0,
+                },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    ease: "expo",
+                }
+            );
+            gsap.to("#divScoreEl", {
                 opacity: 0,
-                duration: 0.4
-            })
+                duration: 0.4,
+            });
         }
 
-        for (let projectileIndex = projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
+        for (
+            let projectileIndex = projectiles.length - 1;
+            projectileIndex >= 0;
+            projectileIndex--
+        ) {
             const projectile = projectiles[projectileIndex];
 
-            const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+            const dist = Math.hypot(
+                projectile.x - enemy.x,
+                projectile.y - enemy.y
+            );
 
             // kiedy obiekty dotkną przeciwników
             if (dist - enemy.radius - projectile.radius < 1) {
                 // eksplozje
                 for (let i = 0; i < enemy.radius * 2; i++) {
-                    particles.push(new Particle(projectile.x, projectile.y, Math.random() * 2, enemy.color, {
-                        x: (Math.random() - 0.5) * (Math.random() * 6),
-                        y: (Math.random() - 0.5) * (Math.random() * 6)
-                    }));
+                    particles.push(
+                        new Particle(
+                            projectile.x,
+                            projectile.y,
+                            Math.random() * 2,
+                            enemy.color,
+                            {
+                                x: (Math.random() - 0.5) * (Math.random() * 6),
+                                y: (Math.random() - 0.5) * (Math.random() * 6),
+                            }
+                        )
+                    );
                 }
                 // zmiejszanie przeciwników
                 if (enemy.radius - 10 > 5) {
                     score += 50;
                     scoreEl.innerHTML = score;
                     gsap.to(enemy, {
-                        radius: enemy.radius - 10
-                    })
+                        radius: enemy.radius - 10,
+                    });
                     projectiles.splice(projectileIndex, 1);
                 } else {
                     // usuwanie przeciwników jeśli są mniejsi
@@ -264,66 +294,69 @@ function animate() {
     }
 }
 
-addEventListener('click', (event) => {
-    const angle = Math.atan2(event.clientY - player.y, event.clientX - player.x);
+addEventListener("click", (event) => {
+    const angle = Math.atan2(
+        event.clientY - player.y,
+        event.clientX - player.x
+    );
     const velocity = {
         x: Math.cos(angle) * 5,
-        y: Math.sin(angle) * 5
-    }
-    projectiles.push(new Projectile(player.x, player.y, 5, 'white', velocity));
+        y: Math.sin(angle) * 5,
+    };
+    projectiles.push(new Projectile(player.x, player.y, 5, "white", velocity));
 });
 
-buttonEl.addEventListener('click', () => {
+buttonEl.addEventListener("click", () => {
     init();
     animate();
     spawnEnemies();
-    gsap.to('#divScoreEl', {
+    gsap.to("#divScoreEl", {
         opacity: 1,
-        duration: 0.4
-    })
-    gsap.to('#modalEl', {
+        duration: 0.4,
+    });
+    gsap.to("#modalEl", {
         opacity: 0,
         scale: 0.8,
         duration: 0.4,
-        ease: 'expo',
+        ease: "expo",
         onComplete: () => {
-            modalEl.style.display = 'none';
-        }
-    })
+            modalEl.style.display = "none";
+        },
+    });
 });
 
-startButtonEl.addEventListener('click', () => {
+startButtonEl.addEventListener("click", () => {
     init();
     animate();
     spawnEnemies();
-    gsap.to('#divScoreEl', {
+    gsap.to("#divScoreEl", {
         opacity: 1,
-        duration: 0.4
-    })
-    gsap.to('#startModalEl', {
+        duration: 0.4,
+    });
+    gsap.to("#startModalEl", {
         opacity: 0,
         scale: 0.8,
         duration: 0.4,
-        ease: 'expo',
+        ease: "expo",
         onComplete: () => {
-            startModalEl.style.display = 'none';
-        }
-    })
+            startModalEl.style.display = "none";
+        },
+    });
 });
 
-addEventListener('keydown', (event) =>{
+addEventListener("keydown", (event) => {
     switch (event.key) {
-        case 'ArrowRight':
+        case "ArrowRight":
             player.velocity.x += 1;
-        break;
-        case 'ArrowLeft':
+            break;
+        case "ArrowLeft":
             player.velocity.x -= 1;
-        break;
-        case 'ArrowUp':
+            break;
+        case "ArrowUp":
             player.velocity.y -= 1;
-        break;
-        case 'ArrowDown':
+            break;
+        case "ArrowDown":
             player.velocity.y += 1;
-        break;
+            break;
     }
 });
