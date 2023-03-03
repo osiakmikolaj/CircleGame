@@ -45,7 +45,7 @@ function init() {
         active: true,
     };
 
-    const spacing = 35;
+    const spacing = 30;
 
     for (let x = 0; x < canvas.width + spacing; x += spacing) {
         for (let y = 0; y < canvas.height + spacing; y += spacing) {
@@ -142,10 +142,10 @@ function animate() {
             player.y - backgroundParticle.position.y
         );
 
-        if (dist < 70) {
+        if (dist < 100) {
             backgroundParticle.alpha = 0;
 
-            if (dist > 40) {
+            if (dist > 70) {
                 backgroundParticle.alpha = 0.5;
             }
         } else if (dist > 100 && backgroundParticle.alpha < 0.1) {
