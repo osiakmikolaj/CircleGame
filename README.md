@@ -1,4 +1,4 @@
-# Circle Game
+# Survival Game in JavaScript
 
 You are a circle and your getting points by shooting the enemies.
 
